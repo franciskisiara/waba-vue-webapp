@@ -41,7 +41,8 @@ onMounted(async () => {
     </div>
   </div>
 
-  <div v-else
+  <div
+    v-else
     class="mx-3"
   >
     <v-card

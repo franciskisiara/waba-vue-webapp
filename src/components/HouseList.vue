@@ -38,11 +38,16 @@ onMounted(() => {
     </div>
   </div>
 
-  <!-- <HouseCard
-    v-for="(house, i) in (data as any)"
-    :key="`house-card-${i}`"
-    :house="house"
-  /> -->
+  <div
+    v-else
+    class="mx-3"
+  >
+    <HouseCard
+      v-for="(house, i) in (houses.data as any)"
+      :key="`house-card-${i}`"
+      :house="house"
+    />
+  </div>
   <!-- <v-card
 
 
