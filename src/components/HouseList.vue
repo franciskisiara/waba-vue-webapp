@@ -1,62 +1,48 @@
 <script setup lang="ts">
-import { axios } from '@/libs/services';
-import { reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useHttp } from '@/composables/http';
 import HouseCard from '@/components/HouseCard.vue';
 
-// type House = {
-//   'house_uid': string,
-//   // "apartment_uid": "c48631d9-7a0c-43fa-9214-3e294a643bc1",
-//   // "house_number": "C4",
-//   // "tenant_uid": "26a0e151-19f2-4d3b-94f3-4cf5b29aa4eb",
-//   // "tenant": {
-//   //     "user_uid": "26a0e151-19f2-4d3b-94f3-4cf5b29aa4eb",
-//   //     "name": "Frank",
-//   //     "email": null,
-//   //     "phone": "254711887341"
-//   // }
-// }
 const route = useRoute()
-const data = ref([])
-axios.get('houses', {
-  params: {
-    apartmentUid: route.params.apartmentUid
-  }
+const http = useHttp()
+const houses: any = ref([])
+
+onMounted(() => {
+  http.request({
+    method: 'get',
+    url: `apartments/${ route.params.apartmentUid }/houses`,
+  })
+    .then((response) => {
+      houses.value = response
+    })
 })
-  .then((res: any) => {
-    data.value = res.data.data
-  })
-  .catch(() => {
-
-  })
-
-//   const mob = reactive({
-//     expand: true,
-//     labels: { 0: 'SU', 1: 'MO', 2: 'TU', 3: 'WED', 4: 'TH', 5: 'FR', 6: 'SA' },
-//     time: 0,
-//     forecast: [
-//       { day: 'Tuesday', icon: 'mdi-white-balance-sunny', temp: '24\xB0/12\xB0' },
-//       { day: 'Wednesday', icon: 'mdi-white-balance-sunny', temp: '22\xB0/14\xB0' },
-//       { day: 'Thursday', icon: 'mdi-cloud', temp: '25\xB0/15\xB0' },
-//     ],
-//   })
-
-  // export default {
-  //   data: () => ({
-
-  //
-  //   expand: false,
-  //
-
-  // })
 </script>
 
 <template>
-  <HouseCard
+  <div
+    v-if="houses.data?.length === 0"
+    class="d-flex h-100 flex-column justify-center align-center px-3"
+  >
+    <div class="text-center">
+      <v-img
+        src="/no-connection.png"
+        height="60"
+        width="60"
+        class="mx-auto mb-3"
+      ></v-img>
+      <p class="text-h5 font-weight-bold">
+        No Houses Found
+      </p>
+      <p>In order to continue, add a house using the button above</p>
+    </div>
+  </div>
+
+  <!-- <HouseCard
     v-for="(house, i) in (data as any)"
     :key="`house-card-${i}`"
     :house="house"
-  />
+  /> -->
   <!-- <v-card
 
 

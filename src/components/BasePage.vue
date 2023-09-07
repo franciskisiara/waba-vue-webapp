@@ -23,7 +23,7 @@ const { dialog } = useCommon()
     style="height: calc(100vh - 120px)"
   >
     <div class="d-flex justify-space-between align-center py-2 pr-3">
-      <v-card-title class="text-h6">
+      <v-card-title class="text-subtitle-1">
         {{ props.title }}
       </v-card-title>
 

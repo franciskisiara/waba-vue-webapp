@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useHttp } from '@/composables/http'
 
 const apartments: any = ref([])
-const { request } = useHttp('get', 'apartments')
+const http = useHttp()
 
 const metadata = [
   { icon: 'water', text: 'Unit charge', value: 'unit_charge', color: '#3498db', },
@@ -12,12 +12,12 @@ const metadata = [
 ]
 
 onMounted(async () => {
-  request()
+  http.request({
+    method: 'get',
+    url: 'apartments',
+  })
     .then((response) => {
       apartments.value = response
-    })
-    .catch(() => {
-
     })
 })
 </script>
@@ -58,7 +58,7 @@ onMounted(async () => {
         <v-card-item
           class="font-weight-medium"
         >
-          <v-card-title class="text-body-1">
+          <v-card-title class="text-body-2">
             {{ apartment.name }}
           </v-card-title>
         </v-card-item>

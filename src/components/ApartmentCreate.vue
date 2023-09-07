@@ -4,7 +4,7 @@ import { useCommon } from '@/composables/common'
 import BaseDialog from '@/components/BaseDialog.vue'
 
 const { dialog } = useCommon()
-const { loading, inputs, errors, request } = useHttp('post', 'apartments', {
+const { loading, inputs, errors, request } = useHttp({
   name: null,
   unit_charge: null,
   fixed_charge: null,
@@ -12,9 +12,13 @@ const { loading, inputs, errors, request } = useHttp('post', 'apartments', {
 })
 
 const addApartment = () => {
-  request().then(() => {
-    dialog.close()
+  request({
+    method: 'post',
+    url: 'apartments',
   })
+    .then(() => {
+      dialog.close()
+    })
 }
 </script>
 

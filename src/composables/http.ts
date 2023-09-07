@@ -1,19 +1,19 @@
 import { computed, reactive, ref } from 'vue'
 import { axios } from '@/libs/services'
 
-export function useHttp (method: string, url: string, data: any = {}) {
+export function useHttp (fields: any = {}) {
   const loading = ref(false)
-  const inputs: any = reactive(data)
   const errorBag: any = reactive({})
+  const inputs: any = reactive(fields)
 
-  const request = async () => {
+  const request = async (configs: any) => {
     if (!loading.value) {
       loading.value = true
 
       try {
-        const configs = { method, url, data: inputs }
+        configs = { ...configs, data: inputs }
         const response = await axios.request(configs)
-        inputs.value = data
+        inputs.value = fields
         return Promise.resolve({ ...response.data })
       } catch (error) {
         const { data, status } = (error as any).response
